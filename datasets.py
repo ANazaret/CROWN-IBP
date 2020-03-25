@@ -32,17 +32,24 @@ def get_stats(loader):
     return mean, std
 
 # load MNIST of Fashion-MNIST
-def mnist_loaders(dataset, batch_size, shuffle_train = True, shuffle_test = False, normalize_input = False, num_examples = None, test_batch_size=None): 
-    mnist_train = dataset("./data", train=True, download=True, transform=transforms.ToTensor())
-    mnist_test = dataset("./data", train=False, download=True, transform=transforms.ToTensor())
+def mnist_loaders(dataset, batch_size, shuffle_train = True, shuffle_test = False, normalize_input = False, num_examples = None, test_batch_size=None):
+    transform = transforms.Compose([transforms.ToTensor(),
+        transforms.Normalize((0.5,), (0.5,)),
+    ])
+    mnist_train = dataset("./data", train=True, download=True, transform=transform)
+    mnist_test = dataset("./data", train=False, download=True, transform=transform)
     if num_examples:
         indices = list(range(num_examples))
         mnist_train = data.Subset(mnist_train, indices)
         mnist_test = data.Subset(mnist_test, indices)
-    train_loader = torch.utils.data.DataLoader(mnist_train, batch_size=batch_size, shuffle=shuffle_train, pin_memory=True, num_workers=min(multiprocessing.cpu_count(),2))
+    train_loader = torch.utils.data.DataLoader(mnist_train, batch_size=batch_size, shuffle=shuffle_train,
+    #pin_memory=True, num_workers=min(multiprocessing.cpu_count(),2)
+    )
     if test_batch_size:
         batch_size = test_batch_size
-    test_loader = torch.utils.data.DataLoader(mnist_test, batch_size=batch_size, shuffle=shuffle_test, pin_memory=True, num_workers=min(multiprocessing.cpu_count(),2))
+    test_loader = torch.utils.data.DataLoader(mnist_test, batch_size=batch_size, shuffle=shuffle_test,
+    #pin_memory=True, num_workers=min(multiprocessing.cpu_count(),2)
+    )
     std = [1.0]
     mean = [0.0]
     train_loader.std = std

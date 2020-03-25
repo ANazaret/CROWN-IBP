@@ -25,7 +25,7 @@ def isint(value):
   except ValueError:
     return False
 
-def argparser(seed = 2019):
+def argparser(seed = 2019, args=None):
 
     parser = argparse.ArgumentParser()
 
@@ -38,7 +38,10 @@ def argparser(seed = 2019):
     parser.add_argument('overrides', type=str, nargs='*',
                                 help='overriding config dict')
     
-    args = parser.parse_args()
+    if args is None:
+        args = parser.parse_args()
+    else:
+        args = parser.parse_args(args)
 
     torch.manual_seed(args.seed)
     torch.cuda.manual_seed(args.seed)

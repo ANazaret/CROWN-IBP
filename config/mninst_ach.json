@@ -1,0 +1,43 @@
+{
+    "model_def": "model_defs.py",
+    "dataset": "mnist",
+    "path_prefix": "",
+    "models_path": "./mnist_crown/",
+    "training_params": {
+        "method": "robust",
+        "epochs": 100,
+        "lr": 5e-4,
+        "weight_decay": 0.0,
+        "optimizer": "adam",
+        "schedule_start": 1,
+        "starting_epsilon": 0.0,
+        "epsilon": 0.3,
+        "schedule_length":61,
+        "norm": "inf",
+        "verbose": false,
+        "loader_params": {"batch_size": 256, "test_batch_size": 1, "shuffle_train": true},
+        "method_params": {"bounded_input": true, "bound_type": "crown-interval"}
+    },
+    "attack_params": {
+        "batch_size": 128,
+        "eps_start": 0.0,
+        "eps_end": 0.3,
+        "eps_step": 16
+    },
+    "eval_params": {
+        "method": "robust",
+        "epsilon": 0.3,
+        "norm": "inf",
+        "verbose": false,
+        "loader_params": {"batch_size": 256, "test_batch_size": 256, "shuffle_train": true},
+        "method_params": {"bounded_input": true, "bound_type": "interval"}
+    },
+    "models": [
+        {
+            "model_id": "regular_dense",
+            "model_class": "model_mlp_any",
+            "model_params": {"in_dim": 784, "neurons": [128,64], "out_dim": 10}
+        }
+    ]
+}
+

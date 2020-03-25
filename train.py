@@ -430,7 +430,7 @@ def main(args):
         if multi_gpu:
             logger.log("\nUsing multiple GPUs for computing CROWN-IBP bounds\n")
             model = BoundDataParallel(model) 
-        model = model.cuda()
+            model = model.cuda()
         
         for t in range(epochs):
             epoch_start_eps = epsilon_scheduler.get_eps(t, 0)
